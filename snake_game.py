@@ -40,7 +40,7 @@ BLOCK_SIZE = 20
 SPEED = 20
 
 
-class SnakeGame:
+class SnakeGameAI:
     """
     Class defining the snake game environment
     """
@@ -53,7 +53,12 @@ class SnakeGame:
         self.display = pygame.display.set_mode(size=(self.w, self.h))
         pygame.display.set_caption("Snake")
         self.clock = pygame.time.Clock()
+        self.reset()
 
+    def reset(self) -> None:
+        """
+        Resets the game
+        """
         # Init Game State
         self.direction = Direction.RIGHT
         self.head = Point(self.w / 2, self.h / 2)
@@ -65,7 +70,7 @@ class SnakeGame:
 
         self.score = 0
         self._place_food()
-        # self._update_ui()
+        self.iteration = 0
 
     def _place_food(self) -> None:
         """
@@ -205,7 +210,7 @@ class SnakeGame:
 
 
 if __name__ == "__main__":
-    game = SnakeGame()
+    game = SnakeGameAI()
 
     # Game loop
     while True:
