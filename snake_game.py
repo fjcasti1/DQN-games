@@ -85,7 +85,7 @@ class SnakeGameAI:
         if self.food in self.snake:
             self._place_food()
 
-    def _is_collision(self, pt: Optional[Point] = None) -> bool:
+    def is_collision(self, pt: Optional[Point] = None) -> bool:
         """
         Checks wether or not the new position of the head of the snake results in
         a collision.
@@ -199,7 +199,7 @@ class SnakeGameAI:
         # Check if Game Over
         reward = 0
         game_over = False
-        if self._is_collision():
+        if self.is_collision():
             game_over = True
             reward = -10
             return game_over, reward, self.score
