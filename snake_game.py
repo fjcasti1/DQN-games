@@ -9,6 +9,13 @@ pygame.init()
 font = pygame.font.Font("arial.ttf", 25)
 
 
+# reset
+# reward
+# play =(action) -> direction
+# game_iteration
+# is_collision
+
+
 class Direction(Enum):
     """
     Enumeration class with the possible movement directions
@@ -58,7 +65,7 @@ class SnakeGame:
 
         self.score = 0
         self._place_food()
-        self._update_ui()
+        # self._update_ui()
 
     def _place_food(self) -> None:
         """
