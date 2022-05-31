@@ -19,7 +19,7 @@ class Linear_Qnet(nn.Module):
         return x
 
     def save(self, file_name: str = "model.pth") -> None:
-        model_folder_path = "./model"
+        model_folder_path = "./store"
         if not os.path.exists(model_folder_path):
             os.makedirs(model_folder_path)
 
