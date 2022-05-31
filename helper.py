@@ -1,6 +1,6 @@
 from typing import List
 
-import matlib.pyplot as plt
+import matplotlib.pyplot as plt
 from IPython import display
 
 plt.ion()

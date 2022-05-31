@@ -4,7 +4,6 @@ from typing import Deque, List, Tuple
 
 import numpy as np
 import torch
-from sklearn.cluster import mean_shift
 
 from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 from helper import plot
@@ -26,14 +25,14 @@ class Agent:
     def __init__(self) -> None:
         self.n_games = 0
         self.epsilon = 0  # Control the randomness
-        self.gamma = 0.9  # Discount rate
+        self.gama = 0.9  # Discount rate
         self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(
             maxlen=MAX_MEMORY
         )
         self.model = Linear_Qnet(
-            imput_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
+            input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
         )
-        self.trainer = QTrainer(model=self.model, lr=LR, gamma=self.gama)
+        self.trainer = QTrainer(model=self.model, lr=LR, gama=self.gama)
 
     def get_state(self, game: SnakeGameAI) -> np.array:
         """
@@ -156,7 +155,7 @@ class Agent:
             action (List[int]): List describing the next movement
         """
         # random moves: traeeoff exploration / exploitation
-        self.epsilon = max(80 - self.n_games, 0)
+        self.epsilon = max(60 - self.n_games, 0)
         move = [0, 0, 0]
         # Random move
         if random.randint(0, 200) < self.epsilon:
@@ -189,7 +188,7 @@ def train() -> None:
         action = agent.get_action(state)
 
         # perform the move and get new state
-        game_over, reward, score = game.play_step(action)
+        game_over, reward, score = game.play_step(action, agent.n_games)
         state_new = agent.get_state(game)
 
         # train short memory

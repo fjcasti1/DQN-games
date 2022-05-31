@@ -1,5 +1,4 @@
 import os
-from math import gamma
 from typing import List, Tuple, Union
 
 import torch
@@ -10,7 +9,7 @@ import torch.optim as optim
 
 class Linear_Qnet(nn.Module):
     def __init__(self, input_size: int, hidden_size: int, output_size: int):
-        super().__init()
+        super().__init__()
         self.linear1 = nn.Linear(input_size, hidden_size)
         self.linear2 = nn.Linear(hidden_size, output_size)
 
@@ -29,9 +28,9 @@ class Linear_Qnet(nn.Module):
 
 
 class QTrainer:
-    def __init__(self, model: torch.Model, lr: float, gama: float) -> None:
+    def __init__(self, model, lr: float, gama: float) -> None:
         self.lr = lr
-        self.gamma = gamma
+        self.gama = gama
         self.model = model
         self.optimizer = optim.Adam(model.parameters(), lr=self.lr)
         self.criterion = nn.MSELoss()
@@ -48,7 +47,6 @@ class QTrainer:
         action = torch.tensor(action, dtype=torch.float)
         reward = torch.tensor(reward, dtype=torch.float)
         next_state = torch.tensor(next_state, dtype=torch.float)
-        game_overs = game_over
         # (n, x)
 
         if len(state.shape) == 1:
@@ -57,9 +55,7 @@ class QTrainer:
             next_state = torch.unsqueeze(next_state, 0)
             action = torch.unsqueeze(action, 0)
             reward = torch.unsqueeze(reward, 0)
-            game_overs = list(
-                game_over,
-            )
+            game_over = (game_over,)
 
         # 1: predicted Q values with the current state
         pred = self.model(state)
@@ -68,15 +64,13 @@ class QTrainer:
         for idx in range(state.shape[0]):
             Q_new = reward[idx]
             if not game_over[idx]:
-                Q_new = reward[idx] + self.gamma * torch.max(
-                    self.model(next_state[idx])
-                )
+                Q_new = reward[idx] + self.gama * torch.max(self.model(next_state[idx]))
             target[idx][torch.argmax(action).item()] = Q_new
 
-        # 2: Q_new + gamma * max( next_predicted Q value ) -> only do this if not game_over
+        # 2: Q_new + gama * max( next_predicted Q value ) -> only do this if not game_over
         # pred.close()
         # pred[argmac(action)] = Q_new
-        self.optimizer.zerp_grad()
+        self.optimizer.zero_grad()
         loss = self.criterion(target, pred)
         loss.backward()
 
