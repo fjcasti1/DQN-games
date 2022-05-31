@@ -31,7 +31,7 @@ BLUE2 = (0, 100, 255)
 BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
-SPEED = 20
+SPEED = 40
 
 
 class SnakeGameAI:
@@ -39,7 +39,7 @@ class SnakeGameAI:
     Class defining the snake game environment
     """
 
-    def __init__(self, width: int = 1000, height: int = 800):
+    def __init__(self, width: int = 800, height: int = 600):
         self.w = width
         self.h = height
 
@@ -170,7 +170,7 @@ class SnakeGameAI:
         self.display.blit(text, [0, 0])
         pygame.display.flip()
 
-    def play_step(self, action: np.array) -> Tuple[bool, int, int]:
+    def play_step(self, action: np.array, n_games: int) -> Tuple[bool, int, int]:
         """
         Evaluates the action of the player in the game and it's possible outcomes.
 
@@ -199,7 +199,7 @@ class SnakeGameAI:
 
         if self.iteration > 100 * len(self.snake):
             game_over = True
-            reward = -5
+            reward = -5 - 5 * (n_games < 100)
             return game_over, reward, self.score
 
         # Place new food

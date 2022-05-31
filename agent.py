@@ -6,10 +6,15 @@ import numpy as np
 import torch
 
 from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
+from helper import plot
+from model import Linear_Qnet, QTrainer
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
 LR = 1e-3
+INPUT_SIZE = 11
+HIDDEN_SIZE = 256
+OUTPUT_SIZE = 3
 
 
 class Agent:
@@ -20,12 +25,14 @@ class Agent:
     def __init__(self) -> None:
         self.n_games = 0
         self.epsilon = 0  # Control the randomness
-        self.gamma = 0  # discount rate
+        self.gama = 0.9  # Discount rate
         self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(
             maxlen=MAX_MEMORY
         )
-        self.model = None  # TODO
-        self.trainer = None  # TODO
+        self.model = Linear_Qnet(
+            input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
+        )
+        self.trainer = QTrainer(model=self.model, lr=LR, gama=self.gama)
 
     def get_state(self, game: SnakeGameAI) -> np.array:
         """
@@ -148,14 +155,14 @@ class Agent:
             action (List[int]): List describing the next movement
         """
         # random moves: traeeoff exploration / exploitation
-        self.epsilon = max(80 - self.n_games, 0)
+        self.epsilon = max(60 - self.n_games, 0)
         move = [0, 0, 0]
         # Random move
         if random.randint(0, 200) < self.epsilon:
             idx = random.randint(0, 2)
             move[idx] = 1
         else:
-            prediction = self.model.predict(torch.tensor(state, dtype=torch.float))
+            prediction = self.model(torch.tensor(state, dtype=torch.float))
             idx = torch.argmax(prediction).item()
             move[idx] = 1
         return move
@@ -165,9 +172,9 @@ def train() -> None:
     """
     Perform training
     """
-    # plot_scores = []
-    # plot_mean_scores = []
-    # total_score = 0
+    plot_scores = []
+    plot_mean_scores = []
+    total_score = 0
     record = 0
 
     agent = Agent()
@@ -181,7 +188,7 @@ def train() -> None:
         action = agent.get_action(state)
 
         # perform the move and get new state
-        game_over, reward, score = game.play_step(action)
+        game_over, reward, score = game.play_step(action, agent.n_games)
         state_new = agent.get_state(game)
 
         # train short memory
@@ -197,9 +204,15 @@ def train() -> None:
 
             if score > record:
                 record = score
-                # TODO(Kiko): agent.model.save()
+                agent.model.save()
 
             print(f"Game: {agent.n_games} -- Score: {score} -- Record: {record}")
+
+            plot_scores.append(score)
+            total_score = score
+            mean_score = total_score / agent.n_games
+            plot_mean_scores.append(mean_score)
+            plot(plot_scores, plot_mean_scores)
 
 
 if __name__ == "__main__":
