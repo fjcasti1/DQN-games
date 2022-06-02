@@ -17,8 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Run Pyre Action
-        uses: facebook/pyre-action
+      - uses: facebook/pyre-action
         with:
             repo-directory: './'
             requirements-path: 'requirements.txt'
