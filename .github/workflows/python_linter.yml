@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI
+name: Python Linter
 
 # Controls when the workflow will run
 on:
@@ -23,6 +23,6 @@ jobs:
       uses: sunnysid3up/python-linter@master
       with:
         source: "./"
-        mypy-options: "--show-error-codes"
+        mypy-options: "--ignore-missing-imports --show-error-codes"
         pylint-options: "--rcfile=setup.cfg"
         isort-options: "-w 100"
