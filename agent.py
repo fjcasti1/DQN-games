@@ -5,12 +5,12 @@ from typing import Deque, List, Tuple
 import numpy as np
 import torch
 
-from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 from helper import plot
 from model import Linear_Qnet, QTrainer
+from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 
-MAX_MEMORY = 100_000
-BATCH_SIZE = 1000
+MAX_MEMORY =100_000
+BATCH_SIZE =1000
 LR = 1e-3
 INPUT_SIZE = 11
 HIDDEN_SIZE = 256
