@@ -1,7 +1,4 @@
-from collections import namedtuple
-from enum import Enum
-from random import randint
-from typing import Optional, Tuple
+from typing import Tuple
 
 import numpy as np
 import pygame
