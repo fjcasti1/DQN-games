@@ -1,10 +1,11 @@
 from random import randint
 from typing import Optional
-from utils.types import Point, Direction
-from base_game import BaseGame
 
 import numpy as np
 import pygame
+
+from base_game import BaseGame
+from utils.types import Direction, Point
 
 font = pygame.font.Font("arial.ttf", 25)
 
@@ -17,13 +18,14 @@ BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
 
+
 class SnakeGame(BaseGame):
     """
     Class defining the snake game environment
     """
 
     def __init__(self, game_name, width: int = 800, height: int = 600):
-        super().__init__(game_name,width, height)
+        super().__init__(game_name, width, height)
         self.reset()
 
     def reset(self):

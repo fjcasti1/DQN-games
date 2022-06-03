@@ -21,4 +21,3 @@ jobs:
         with:
             repo-directory: './'
             requirements-path: 'requirements.txt'
-
