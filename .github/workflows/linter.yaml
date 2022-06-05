@@ -24,13 +24,17 @@ jobs:
       - name: Install Python dependencies
         run: pip install black flake8
 
-      - name: Run linters
+      - name: Black formatting
         uses: wearerequired/lint-action@v2
         with:
           continue_on_error: false
           auto_fix: true
           black: true
           black_auto_fix: true
+
+      - name: Flake8 check
+        uses: wearerequired/lint-action@v2
+        with:
+          continue_on_error: false
           flake8: true
-          flake8_auto_fix: false
           flake8_args: "--max-line-length=94"
