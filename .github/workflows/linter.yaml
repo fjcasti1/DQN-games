@@ -32,6 +32,9 @@ jobs:
           black: true
           black_auto_fix: true
 
+      - name: Check out Git repository
+        uses: actions/checkout@v2
+
       - name: Flake8 check
         uses: wearerequired/lint-action@v2
         with:
