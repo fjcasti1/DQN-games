@@ -26,9 +26,11 @@ class Agent:
         self.n_games = 0
         self.epsilon = 0  # Control the randomness
         self.gama = 0.9  # Discount rate
-        self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(maxlen=MAX_MEMORY    )
-        self.model = Linear_Qnet(input_size=INPUT_SIZE,
-        hidden_size=HIDDEN_SIZE, output_size= OUTPUT_SIZE
+        self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(
+            maxlen=MAX_MEMORY
+        )
+        self.model = Linear_Qnet(
+            input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
         )
         self.trainer = QTrainer(model=self.model, lr=LR, gama=self.gama)
 
