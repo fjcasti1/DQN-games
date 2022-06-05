@@ -2,8 +2,8 @@ import os
 from typing import List, Union
 
 import torch
-import torch.nn.functional as F
 import torch.nn as nn
+import torch.nn.functional as F
 import torch.optim as optim
 
 
