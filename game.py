@@ -1,9 +1,7 @@
 from collections import namedtuple
 from enum import Enum
 from random import randint
-from typing import Optional, Tuple, List, AbstractSet
-
-import torch
+from typing import Optional, Tuple
 
 import numpy as np
 import pygame
@@ -27,16 +25,20 @@ Point = namedtuple("Point", "x, y")
 
 # RGB colors
 WHITE = (255, 255, 255)
-RED =(200, 0, 0)
-BLUE1 =(0, 0, 255)
-BLUE2 =(0, 100, 255)
-BLACK =(0, 0, 0)
+RED = (200, 0, 0)
+BLUE1 = (0, 0, 255)
+BLUE2 = (0, 100, 255)
+BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
 SPEED = 40
 
 
 class SnakeGameAI:
+    """
+    Class defining the snake game environment
+    """
+
     def __init__(self, width: int = 800, height: int = 600):
         self.w = width
         self.h = height
@@ -48,6 +50,9 @@ class SnakeGameAI:
         self.reset()
 
     def reset(self) -> None:
+        """
+        Resets the game
+        """
         # Init Game State
         self.direction = Direction.RIGHT
         self.head = Point(self.w / 2, self.h / 2)
@@ -66,8 +71,8 @@ class SnakeGameAI:
         Place food in a random position in the play area. If the placement lands
         in a position occupied by the snake, it is replaced
         """
-        x =BLOCK_SIZE * randint(0, (self.w - BLOCK_SIZE) // BLOCK_SIZE)
-        y =BLOCK_SIZE * randint(0, (self.h - BLOCK_SIZE) // BLOCK_SIZE)
+        x = BLOCK_SIZE * randint(0, (self.w - BLOCK_SIZE) // BLOCK_SIZE)
+        y = BLOCK_SIZE * randint(0, (self.h - BLOCK_SIZE) // BLOCK_SIZE)
         self.food = Point(x, y)
         # Try again if we placed food inside the snake
         if self.food in self.snake:
@@ -138,7 +143,11 @@ class SnakeGameAI:
 
         # Draw snake
         for part in self.snake:
-            pygame.draw.rect(surface=self.display,color=BLUE1,rect=pygame.Rect(part.x, part.y, BLOCK_SIZE, BLOCK_SIZE))
+            pygame.draw.rect(
+                surface=self.display,
+                color=BLUE1,
+                rect=pygame.Rect(part.x, part.y, BLOCK_SIZE, BLOCK_SIZE),
+            )
             pygame.draw.rect(
                 surface=self.display,
                 color=BLUE2,
