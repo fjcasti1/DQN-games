@@ -1,8 +1,8 @@
-from abc import ABC, abstractclassmethod
 from pathlib import Path
+import numpy as np
+from abc import ABC, abstractclassmethod
 from typing import Tuple
 
-import numpy as np
 import pygame
 
 pygame.init()
