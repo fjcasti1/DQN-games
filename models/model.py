@@ -14,6 +14,15 @@ class Linear_Qnet(nn.Module):
         self.linear2 = nn.Linear(hidden_size, output_size)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """
+        Performs forward pass
+
+        Args:
+            x (torch.Tensor): Tensor representing the state
+
+        Returns:
+            torch.Tensor: Logits representing the probability of taking different actions
+        """
         x = F.relu(self.linear1(x))
         x = self.linear2(x)
         return x
@@ -67,7 +76,7 @@ class QTrainer:
                 Q_new = reward[idx] + self.gama * torch.max(self.model(next_state[idx]))
             target[idx][torch.argmax(action).item()] = Q_new
 
-        # 2: Q_new + gama * max( next_predicted Q value ) -> only do this if not game_over
+        # 2: Q_new + gama * max( next_predicted Q value ) -> do only if not game_over
         # pred.close()
         # pred[argmac(action)] = Q_new
         self.optimizer.zero_grad()

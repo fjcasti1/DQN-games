@@ -1,27 +1,11 @@
-from collections import namedtuple
-from enum import Enum
 from random import randint
-from typing import Optional, Tuple
+from typing import Optional
 
 import numpy as np
 import pygame
 
-pygame.init()
-font = pygame.font.Font("arial.ttf", 25)
-
-
-class Direction(Enum):
-    """
-    Enumeration class with the possible movement directions
-    """
-
-    UP = 1
-    DOWN = 2
-    LEFT = 3
-    RIGHT = 4
-
-
-Point = namedtuple("Point", "x, y")
+from games.base import BaseGame
+from utils.types import Direction, Point
 
 # RGB colors
 WHITE = (255, 255, 255)
@@ -31,28 +15,28 @@ BLUE2 = (0, 100, 255)
 BLACK = (0, 0, 0)
 
 BLOCK_SIZE = 20
-SPEED = 40
 
 
-class SnakeGameAI:
+class SnakeGame(BaseGame):
     """
     Class defining the snake game environment
     """
 
-    def __init__(self, width: int = 800, height: int = 600):
-        self.w = width
-        self.h = height
+    def __init__(self, game_name, width: int = 800, height: int = 600):
+        """
+        Initialize the Snake Game
 
-        # Init Display
-        self.display = pygame.display.set_mode(size=(self.w, self.h))
-        pygame.display.set_caption("Snake")
-        self.clock = pygame.time.Clock()
+        Args:
+            game_name (str): Title for the game window
+            width (int, optional): Width of the game window. Defaults to 800.
+            height (int, optional): Height of the game window. Defaults to 600.
+        """
+        super().__init__(game_name, width, height)
         self.reset()
 
-    def reset(self) -> None:
-        """
-        Resets the game
-        """
+    def reset(self):
+        """Reset properties needed for the Snake Game to begin"""
+        super().reset()
         # Init Game State
         self.direction = Direction.RIGHT
         self.head = Point(self.w / 2, self.h / 2)
@@ -61,10 +45,81 @@ class SnakeGameAI:
             Point(self.head.x - BLOCK_SIZE, self.head.y),
             Point(self.head.x - (2 * BLOCK_SIZE), self.head.y),
         ]
-
-        self.score = 0
         self._place_food()
-        self.iteration = 0
+
+    def perform_action(self, action):
+        # Move, updates head future position
+        self._move(action)
+        self.snake.insert(0, self.head)
+
+        # Check if Game Over
+        reward = 0
+        if self._is_collision() or self.iteration > 100 * len(self.snake):
+            self.game_over = True
+            reward = -10
+        # Place new food
+        elif self.head == self.food:
+            self.score += 1
+            reward = 10
+            self._place_food()
+        else:
+            self.snake.pop()
+
+        return reward
+
+    def get_state(self):
+        """
+        Get game state as input for the model
+
+        Args:
+            game (SnakeGame): snake game being played
+
+        Returns:
+            np.array: 11-dimensional array containing the following information:
+                * Current direction of movement
+                * Food positions
+                * Danger positions
+        """
+        head = self.head
+        point_l = Point(head.x - BLOCK_SIZE, head.y)
+        point_r = Point(head.x + BLOCK_SIZE, head.y)
+        point_u = Point(head.x, head.y - BLOCK_SIZE)
+        point_d = Point(head.x, head.y + BLOCK_SIZE)
+
+        dir_l = self.direction == Direction.LEFT
+        dir_r = self.direction == Direction.RIGHT
+        dir_u = self.direction == Direction.UP
+        dir_d = self.direction == Direction.DOWN
+
+        state = [
+            # Movement directions
+            dir_l,
+            dir_r,
+            dir_u,
+            dir_d,
+            # Food location
+            self.food.x < self.head.x,  # Food to the left
+            self.food.x > self.head.x,  # Food to the right
+            self.food.y < self.head.y,  # Food to the north
+            self.food.y > self.head.y,  # Food to the south
+            # Danger location
+            # - Danger straigth
+            (dir_l and self._is_collision(point_l))
+            or (dir_r and self._is_collision(point_r))
+            or (dir_u and self._is_collision(point_u))
+            or (dir_d and self._is_collision(point_d)),
+            # - Danger left
+            (dir_l and self._is_collision(point_d))
+            or (dir_r and self._is_collision(point_u))
+            or (dir_u and self._is_collision(point_l))
+            or (dir_d and self._is_collision(point_r)),
+            # - Danger right
+            (dir_l and self._is_collision(point_u))
+            or (dir_r and self._is_collision(point_d))
+            or (dir_u and self._is_collision(point_r))
+            or (dir_d and self._is_collision(point_l)),
+        ]
+        return np.array(state, dtype=int)
 
     def _place_food(self) -> None:
         """
@@ -78,7 +133,7 @@ class SnakeGameAI:
         if self.food in self.snake:
             self._place_food()
 
-    def is_collision(self, pt: Optional[Point] = None) -> bool:
+    def _is_collision(self, pt: Optional[Point] = None) -> bool:
         """
         Checks wether or not the new position of the head of the snake results in
         a collision.
@@ -166,52 +221,6 @@ class SnakeGameAI:
             rect=pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE),
         )
 
-        text = font.render(f"Score: {self.score}", True, WHITE)
+        text = self.font.render(f"Score: {self.score}", True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
-
-    def play_step(self, action: np.array, n_games: int) -> Tuple[bool, int, int]:
-        """
-        Evaluates the action of the player in the game and it's possible outcomes.
-
-        Returns:
-            Tuple[bool, int]: game_over, score
-        """
-        self.iteration += 1
-
-        # Collect user input
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                pygame.quit()
-                quit()
-
-        # Move, updates head future position
-        self._move(action)
-        self.snake.insert(0, self.head)
-
-        # Check if Game Over
-        reward = 0
-        game_over = False
-        if self.is_collision():
-            game_over = True
-            reward = -10
-            return game_over, reward, self.score
-
-        if self.iteration > 100 * len(self.snake):
-            game_over = True
-            reward = -5 - 5 * (n_games < 100)
-            return game_over, reward, self.score
-
-        # Place new food
-        if self.head == self.food:
-            self.score += 1
-            reward = 10
-            self._place_food()
-        else:
-            self.snake.pop()
-
-        # Update UI and Clock
-        self._update_ui()
-        self.clock.tick(SPEED)
-
-        return game_over, reward, self.score

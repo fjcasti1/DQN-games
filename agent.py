@@ -5,9 +5,9 @@ from typing import Deque, List, Tuple
 import numpy as np
 import torch
 
-from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
-from helper import plot
-from model import Linear_Qnet, QTrainer
+from games.snake import SnakeGame
+from models.model import Linear_Qnet, QTrainer
+from utils.helper import plot
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000
@@ -18,9 +18,7 @@ OUTPUT_SIZE = 3
 
 
 class Agent:
-    """
-    Class describing the AI agent
-    """
+    "Class describing the AI agent"
 
     def __init__(self) -> None:
         self.n_games = 0
@@ -33,60 +31,6 @@ class Agent:
             input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
         )
         self.trainer = QTrainer(model=self.model, lr=LR, gama=self.gama)
-
-    def get_state(self, game: SnakeGameAI) -> np.array:
-        """
-        Get game state as input for the model
-
-        Args:
-            game (SnakeGameAI): snake game being played
-
-        Returns:
-            np.array: 11-dimensional array containing the following information:
-                * Current direction of movement
-                * Food positions
-                * Danger positions
-        """
-        head = game.head
-        point_l = Point(head.x - BLOCK_SIZE, head.y)
-        point_r = Point(head.x + BLOCK_SIZE, head.y)
-        point_u = Point(head.x, head.y - BLOCK_SIZE)
-        point_d = Point(head.x, head.y + BLOCK_SIZE)
-
-        dir_l = game.direction == Direction.LEFT
-        dir_r = game.direction == Direction.RIGHT
-        dir_u = game.direction == Direction.UP
-        dir_d = game.direction == Direction.DOWN
-
-        state = [
-            # Movement directions
-            dir_l,
-            dir_r,
-            dir_u,
-            dir_d,
-            # Food location
-            game.food.x < game.head.x,  # Food to the left
-            game.food.x > game.head.x,  # Food to the right
-            game.food.y < game.head.y,  # Food to the north
-            game.food.y > game.head.y,  # Food to the south
-            # Danger location
-            # - Danger straigth
-            (dir_l and game.is_collision(point_l))
-            or (dir_r and game.is_collision(point_r))
-            or (dir_u and game.is_collision(point_u))
-            or (dir_d and game.is_collision(point_d)),
-            # - Danger left
-            (dir_l and game.is_collision(point_d))
-            or (dir_r and game.is_collision(point_u))
-            or (dir_u and game.is_collision(point_l))
-            or (dir_d and game.is_collision(point_r)),
-            # - Danger right
-            (dir_l and game.is_collision(point_u))
-            or (dir_r and game.is_collision(point_d))
-            or (dir_u and game.is_collision(point_r))
-            or (dir_d and game.is_collision(point_l)),
-        ]
-        return np.array(state, dtype=int)
 
     def remember(
         self,
@@ -178,18 +122,18 @@ def train() -> None:
     record = 0
 
     agent = Agent()
-    game = SnakeGameAI()
+    game = SnakeGame(game_name="Snake")
 
     while True:
         # get current state
-        state = agent.get_state(game)
+        state = game.get_state()
 
         # get move
         action = agent.get_action(state)
 
         # perform the move and get new state
-        game_over, reward, score = game.play_step(action, agent.n_games)
-        state_new = agent.get_state(game)
+        game_over, reward, score = game.play_step(action)
+        state_new = game.get_state()
 
         # train short memory
         agent.train_short_memory(state, action, reward, state_new, game_over)
