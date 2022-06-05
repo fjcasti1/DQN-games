@@ -4,8 +4,8 @@ from model import Linear_Qnet, QTrainer
 from typing import Deque, List, Tuple
 
 import torch
-from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 from helper import plot
+from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 import numpy as np
 
 
