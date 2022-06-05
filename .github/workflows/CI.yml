@@ -31,9 +31,19 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4.9.4
         env:
-          PYTHON_ISORT_CONFIG_FILE: .isort.cfg
           VALIDATE_PYTHON_ISORT: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  isort:
+    name: isort
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - uses: isort/isort-action@master
+        with:
+            requirementsFiles: "requirements.txt"
 
   documentation:
     name: Docstring Coverage
