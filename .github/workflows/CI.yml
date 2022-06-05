@@ -31,6 +31,7 @@ jobs:
       - name: Lint Code Base
         uses: github/super-linter@v4.9.4
         env:
+          PYTHON_ISORT_CONFIG_FILE: pyproject.toml
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   documentation:
