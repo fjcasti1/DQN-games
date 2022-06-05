@@ -47,7 +47,7 @@ jobs:
           fail_under: 80
 
   CodeQL:
-    name: Analyze Vulnerability
+    name: CodeQL Analysis
     # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
     runs-on: ubuntu-latest
     needs: [dep-review]
