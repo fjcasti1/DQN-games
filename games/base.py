@@ -12,8 +12,7 @@ SPEED = 40
 
 class BaseGame(ABC):
     def __init__(self, game_name: str, width: int = 800, height: int = 600):
-        """
-        Basic common settings for different games
+        """Basic common settings for different games
 
         Args:
             game_name (str): Title for the game window
