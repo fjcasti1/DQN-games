@@ -43,6 +43,11 @@ on:
     types:
       - opened
 
+permissions:
+  issues: write
+  pull-requests: write
+  repository-projects: write
+
 jobs:
   add-to-project:
     name: Add issue to project
