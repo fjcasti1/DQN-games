@@ -27,7 +27,10 @@ jobs:
       - name: Run linters
         uses: wearerequired/lint-action@v2
         with:
-          auto_fix: false
-          black: true
-          flake8: true
           continue_on_error: false
+          auto_fix: true
+          black: true
+          black_auto_fix: true
+          flake8: true
+          flake8_auto_fix: false
+          flake8_args: "--max-line-length=94"
