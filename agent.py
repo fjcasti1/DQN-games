@@ -1,9 +1,9 @@
 import random
-from collections import deque
 from typing import Deque, List, Tuple
 
 import numpy as np
 import torch
+from tscollections import deque
 
 from games.snake import SnakeGame
 from models.model import Linear_Qnet, QTrainer
