@@ -109,7 +109,7 @@ jobs:
           use-isort: true
           extra-pylint-options: ""
           extra-pycodestyle-options: ""
-          extra-flake8-options: ""
+          extra-flake8-options: "--max-len 94"
           extra-black-options: ""
           extra-mypy-options: ""
           extra-isort-options: "--profile black --check-only --diff"
