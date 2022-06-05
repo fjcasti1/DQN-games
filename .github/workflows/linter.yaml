@@ -46,11 +46,14 @@ jobs:
     name: Type Checking
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out Git repository
+        uses: actions/checkout@v2
 
       - name: Run Pyre Action
         uses: facebook/pyre-action
         with:
           repo-directory: './'
           requirements-path: 'requirements.txt'
+          use-nightly: false
+
 
