@@ -10,7 +10,14 @@ SPEED = 40
 
 
 class BaseGame:
-    def __init__(self, game_name, width: int = 800, height: int = 600):
+    def __init__(self, game_name:str, width: int = 800, height: int = 600):
+        """Basic common settings for different games
+
+        Args:
+            game_name (str): Title for the game window
+            width (int, optional): Width of the game window. Defaults to 800.
+            height (int, optional): Height of the game window. Defaults to 600.
+        """
         self.w = width
         self.h = height
         self.font = pygame.font.Font(Path("./games/assets/arial.ttf"), 25)
@@ -26,8 +33,7 @@ class BaseGame:
         self.iteration = 0
 
     def play_step(self, action: np.array) -> Tuple[bool, int, int]:
-        """
-        Evaluates the action of the player in the game and it's possible outcomes.
+        """Evaluates the action of the player in the game and it's possible outcomes.
 
         Returns:
             Tuple[bool, int]: game_over, score

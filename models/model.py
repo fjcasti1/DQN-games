@@ -14,6 +14,14 @@ class Linear_Qnet(nn.Module):
         self.linear2 = nn.Linear(hidden_size, output_size)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
+        """Performs forward pass
+
+        Args:
+            x (torch.Tensor): Tensor representing the state
+
+        Returns:
+            torch.Tensor: Logits representing the probability of taking different actions
+        """
         x = F.relu(self.linear1(x))
         x = self.linear2(x)
         return x
