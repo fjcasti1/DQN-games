@@ -3,6 +3,7 @@ from typing import Optional
 
 import numpy as np
 import pygame
+
 from games.base import BaseGame
 from utils.types import Direction, Point
 

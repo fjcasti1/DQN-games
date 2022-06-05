@@ -4,6 +4,7 @@ from typing import Deque, List, Tuple
 
 import numpy as np
 import torch
+
 from games.snake import SnakeGame
 from models.model import Linear_Qnet, QTrainer
 from utils.helper import plot
