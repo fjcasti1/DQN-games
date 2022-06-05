@@ -1,0 +1,20 @@
+name: Assign Issue to Project(s)
+
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  issues:
+    types: [opened]
+  pull_request:
+    types: [opened]
+
+jobs:
+  add-to-project:
+    name: Add issue to project
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/add-to-project@main
+        with:
+          project-url: https://github.com/users/fjcasti1/projects/2
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+            # labeled: bug, needs-triage
+            # label-operator: OR
