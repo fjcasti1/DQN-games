@@ -32,9 +32,9 @@ jobs:
           python-version: "3.8"
 
       - name: Run isort
-          uses: isort/isort-action@master
-          with:
-              requirementsFiles: "requirements.txt"
+        uses: isort/isort-action@master
+        with:
+            requirementsFiles: "requirements.txt"
 
   documentation:
     name: Docstring Coverage
