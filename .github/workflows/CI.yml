@@ -47,6 +47,7 @@ jobs:
 
       - name: Run isort
         run: |
+          pip install isort
           isort --check-only --diff --profile black
         #  uses: isort/isort-action@master
         #  with:
