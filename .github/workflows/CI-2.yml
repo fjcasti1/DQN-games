@@ -94,7 +94,7 @@ jobs:
         uses: github/codeql-action/analyze@v2
 
   code-format:
-    name: Code Quality and Lint
+    name: Code Format
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v1
@@ -113,7 +113,7 @@ jobs:
           extra-isort-options: "--profile black --check-only --diff"
 
   code-lint:
-    name: Code Quality and Lint
+    name: Code Quality & Lint
     runs-on: ubuntu-latest
     needs: [code-format]
     steps:
