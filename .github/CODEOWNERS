@@ -1,3 +1,4 @@
 # When someone opens a pull request that modifies specified files/folders/file types
 # owner(s) will be requested for a review.
 ./*    @fjcasti1 @danidmvz
+*    @fjcasti1 @danidmvz
