@@ -14,7 +14,8 @@ class Linear_Qnet(nn.Module):
         self.linear2 = nn.Linear(hidden_size, output_size)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
-        """Performs forward pass
+        """
+        Performs forward pass
 
         Args:
             x (torch.Tensor): Tensor representing the state

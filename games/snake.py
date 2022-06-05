@@ -23,10 +23,20 @@ class SnakeGame(BaseGame):
     """
 
     def __init__(self, game_name, width: int = 800, height: int = 600):
+        """
+        Initialize the Snake Game
+
+        Args:
+            game_name (str): Title for the game window
+            width (int, optional): Width of the game window. Defaults to 800.
+            height (int, optional): Height of the game window. Defaults to 600.
+        """
         super().__init__(game_name, width, height)
         self.reset()
 
     def reset(self):
+        """Reset properties needed for the Snake Game to begin
+        """
         super().reset()
         # Init Game State
         self.direction = Direction.RIGHT

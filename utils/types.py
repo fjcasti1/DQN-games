@@ -3,9 +3,7 @@ from typing import NamedTuple
 
 
 class Direction(Enum):
-    """
-    Enumeration class with the possible movement directions
-    """
+    "Enumeration class with the possible movement directions"
 
     UP = 1
     DOWN = 2

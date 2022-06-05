@@ -11,7 +11,8 @@ SPEED = 40
 
 class BaseGame:
     def __init__(self, game_name: str, width: int = 800, height: int = 600):
-        """Basic common settings for different games
+        """
+        Basic common settings for different games
 
         Args:
             game_name (str): Title for the game window
@@ -33,7 +34,8 @@ class BaseGame:
         self.iteration = 0
 
     def play_step(self, action: np.array) -> Tuple[bool, int, int]:
-        """Evaluates the action of the player in the game and it's possible outcomes.
+        """
+        Evaluates the action of the player in the game and it's possible outcomes.
 
         Returns:
             Tuple[bool, int]: game_over, score

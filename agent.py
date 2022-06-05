@@ -18,9 +18,7 @@ OUTPUT_SIZE = 3
 
 
 class Agent:
-    """
-    Class describing the AI agent
-    """
+    "Class describing the AI agent"
 
     def __init__(self) -> None:
         self.n_games = 0
