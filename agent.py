@@ -18,6 +18,7 @@ OUTPUT_SIZE = 3
 
 
 class Agent:
+
     "Class describing the AI agent"
 
     def __init__(self) -> None:
