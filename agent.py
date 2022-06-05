@@ -48,10 +48,10 @@ class Agent:
                 * Danger positions
         """
         head = game.head
-        point_l =Point(head.x - BLOCK_SIZE, head.y)
-        point_r =Point(head.x + BLOCK_SIZE, head.y)
-        point_u =Point(head.x, head.y - BLOCK_SIZE)
-        point_d =Point(head.x, head.y + BLOCK_SIZE)
+        point_l = Point(head.x - BLOCK_SIZE, head.y)
+        point_r = Point(head.x + BLOCK_SIZE, head.y)
+        point_u = Point(head.x, head.y - BLOCK_SIZE)
+        point_d = Point(head.x, head.y + BLOCK_SIZE)
 
         dir_l = game.direction == Direction.LEFT
         dir_r = game.direction == Direction.RIGHT
