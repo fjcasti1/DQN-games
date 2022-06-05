@@ -10,7 +10,7 @@ SPEED = 40
 
 
 class BaseGame:
-    def __init__(self, game_name:str, width: int = 800, height: int = 600):
+    def __init__(self, game_name: str, width: int = 800, height: int = 600):
         """Basic common settings for different games
 
         Args:
