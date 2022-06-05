@@ -9,8 +9,8 @@ from game import BLOCK_SIZE, Direction, Point, SnakeGameAI
 from helper import plot
 from model import Linear_Qnet, QTrainer
 
-MAX_MEMORY = 100_000
-BATCH_SIZE = 1000
+MAX_MEMORY =100_000
+BATCH_SIZE =1000
 LR = 1e-3
 INPUT_SIZE = 11
 HIDDEN_SIZE = 256
@@ -26,11 +26,9 @@ class Agent:
         self.n_games = 0
         self.epsilon = 0  # Control the randomness
         self.gama = 0.9  # Discount rate
-        self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(
-            maxlen=MAX_MEMORY
+        self.memory: Deque[Tuple[np.array, List[int], int, np.array, bool]] = deque(maxlen=MAX_MEMORY
         )
-        self.model = Linear_Qnet(
-            input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
+        self.model = Linear_Qnet(            input_size=INPUT_SIZE, hidden_size=HIDDEN_SIZE, output_size=OUTPUT_SIZE
         )
         self.trainer = QTrainer(model=self.model, lr=LR, gama=self.gama)
 
