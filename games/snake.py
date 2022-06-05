@@ -35,8 +35,7 @@ class SnakeGame(BaseGame):
         self.reset()
 
     def reset(self):
-        """Reset properties needed for the Snake Game to begin
-        """
+        """Reset properties needed for the Snake Game to begin"""
         super().reset()
         # Init Game State
         self.direction = Direction.RIGHT

@@ -1,3 +1,4 @@
+from abc import ABC, abstractclassmethod
 from pathlib import Path
 from typing import Tuple
 
@@ -9,7 +10,7 @@ pygame.init()
 SPEED = 40
 
 
-class BaseGame:
+class BaseGame(ABC):
     def __init__(self, game_name: str, width: int = 800, height: int = 600):
         """
         Basic common settings for different games
@@ -57,11 +58,14 @@ class BaseGame:
 
         return self.game_over, reward, self.score
 
+    @abstractclassmethod
     def perform_action(self, action):
         pass
 
+    @abstractclassmethod
     def get_state(self):
         pass
 
+    @abstractclassmethod
     def _update_ui(self):
         pass
