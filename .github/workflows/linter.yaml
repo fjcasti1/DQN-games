@@ -28,9 +28,7 @@ jobs:
         uses: wearerequired/lint-action@v2
         with:
           continue_on_error: false
-          auto_fix: true
           black: true
-          black_auto_fix: true
 
       - name: Check out Git repository
         uses: actions/checkout@v2
