@@ -1,10 +1,9 @@
-
 import numpy as np
 import random
 from games.snake import SnakeGame
 from models.model import Linear_Qnet, QTrainer
 from utils.helper import plot
-from collections import deque
+from tscollections import deque
 from typing import Deque, List, Tuple
 import torch
 
