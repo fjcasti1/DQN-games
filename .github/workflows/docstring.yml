@@ -1,3 +1,5 @@
+name: "Documentation"
+
 on:
   # Trigger the workflow on push or pull request,
   # but only for the main branch
@@ -7,7 +9,7 @@ on:
 
 jobs:
   docstring:
-    name: Check Docstring Coverage
+    name: Docstring Coverage
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
