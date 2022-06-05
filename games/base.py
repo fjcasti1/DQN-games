@@ -1,9 +1,9 @@
+import os
+from pathlib import Path
 from typing import Tuple
 
 import numpy as np
 import pygame
-from pathlib import Path
-import os
 
 pygame.init()
 
