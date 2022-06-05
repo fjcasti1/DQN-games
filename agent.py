@@ -4,10 +4,10 @@ from typing import Deque, List, Tuple
 
 import numpy as np
 import torch
+from models.model import Linear_Qnet, QTrainer
+from games.snake import SnakeGame
 
-from helper import plot
-from model import Linear_Qnet, QTrainer
-from snake_game import SnakeGame
+from utils.helper import plot
 
 MAX_MEMORY = 100_000
 BATCH_SIZE = 1000

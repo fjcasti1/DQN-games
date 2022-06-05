@@ -2,6 +2,8 @@ from typing import Tuple
 
 import numpy as np
 import pygame
+from pathlib import Path
+import os
 
 pygame.init()
 
@@ -12,6 +14,7 @@ class BaseGame:
     def __init__(self, game_name, width: int = 800, height: int = 600):
         self.w = width
         self.h = height
+        self.font = pygame.font.Font(Path("./games/assets/arial.ttf"), 25)
 
         # Init Display
         self.display = pygame.display.set_mode(size=(self.w, self.h))

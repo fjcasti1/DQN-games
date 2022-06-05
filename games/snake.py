@@ -3,11 +3,9 @@ from typing import Optional
 
 import numpy as np
 import pygame
+from games.base import BaseGame
 
-from base_game import BaseGame
 from utils.types import Direction, Point
-
-font = pygame.font.Font("arial.ttf", 25)
 
 # RGB colors
 WHITE = (255, 255, 255)
@@ -214,6 +212,6 @@ class SnakeGame(BaseGame):
             rect=pygame.Rect(self.food.x, self.food.y, BLOCK_SIZE, BLOCK_SIZE),
         )
 
-        text = font.render(f"Score: {self.score}", True, WHITE)
+        text = self.font.render(f"Score: {self.score}", True, WHITE)
         self.display.blit(text, [0, 0])
         pygame.display.flip()
