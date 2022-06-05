@@ -1,1 +1,1 @@
-# snake-ai
+# DQN-games
