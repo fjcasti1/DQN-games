@@ -8,8 +8,8 @@ on:
       - main
 
 jobs:
-  run-linters:
-    name: Lint Codebase
+  format:
+    name: Enfore Black Formatting
     runs-on: ubuntu-latest
 
     steps:
@@ -22,9 +22,9 @@ jobs:
           python-version: 3.8
 
       - name: Install Python dependencies
-        run: pip install black flake8
+        run: pip install black
 
-      - name: Black formatting
+      - name: Run Black
         uses: wearerequired/lint-action@v2
         with:
           continue_on_error: false
@@ -32,20 +32,15 @@ jobs:
           black: true
           black_auto_fix: true
 
+  lint:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+
+    steps:
       - name: Check out Git repository
         uses: actions/checkout@v2
 
-      - name: Flake8 check
-        uses: wearerequired/lint-action@v2
-        with:
-          continue_on_error: false
-          flake8: true
-          flake8_args: "--max-line-length=94"
-  new-action:
-    name: New Action
-    runs-on: ubuntu-latest
-    steps:
-      - name: wemake-python-styleguide
-        uses: wemake-services/wemake-python-styleguide@0.16.1
+      - name: Lint Code Base
+        uses: github/super-linter@v3
         env:
-          GITHUB_TOKEN: ${{ secrets.github_token }}
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
