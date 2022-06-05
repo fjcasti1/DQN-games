@@ -41,7 +41,8 @@ class Agent:
         next_state: np.array,
         game_over: bool,
     ) -> None:
-        """Store training variables in deque memory
+        """
+        Store training variables in deque memory
 
         Args:
             state (np.array): 11-dimensional array containing state information

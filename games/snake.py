@@ -18,7 +18,6 @@ BLOCK_SIZE = 20
 
 
 class SnakeGame(BaseGame):
-
     """Class defining the snake game environment."""
 
     def __init__(self, game_name, width: int = 800, height: int = 600):
