@@ -55,7 +55,7 @@ class BaseGame:
 
         return self.game_over, reward, self.score
 
-    def perform_action(action):
+    def perform_action(self,action):
         pass
 
     def get_state(self):
