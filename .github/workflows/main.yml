@@ -1,86 +1,22 @@
-## This is a basic workflow to help you get started with Actions
-#name: Auto Assign to Project(s)
-#
-## Controls when the workflow will run
-#on:
-#  # Triggers the workflow on push or pull request events but only for the "main" branch
-#  issues:
-#    types: [opened]
-#  pull_request:
-#    types: [opened]
-#
-#  # Allows you to run this workflow manually from the Actions tab
-#  workflow_dispatch:
-#
-#permissions:
-#  issues: write
-#  pull-requests: write
-#
-## A workflow run is made up of one or more jobs that can run sequentially or in parallel
-#jobs:
-#  # This workflow contains a single job called "build"
-#  build:
-#    # The type of runner that the job will run on
-#    runs-on: ubuntu-latest
-#
-#    # Steps represent a sequence of tasks that will be executed as part of the job
-#    steps:
-#      - name: Add To GitHub Projects Beta
-#        uses: actions/add-to-project@v0.0.3
-#        with:
-#          # URL of the project to add issues to
-#          project-url: https://github.com/users/fjcasti1/projects/2
-#          # A GitHub personal access token with write access to the project
-#          github-token: ${{ secrets.GITHUB_TOKEN }}
-##           # A comma-separated list of labels to use as a filter for issue to be added
-##           labeled: # optional
-##           # The behavior of the labels filter, AND to match all labels, OR to match any label (default is OR)
-##           label-operator: # optional
-name: Add bugs to bugs project
+name: Assign Issue to Project(s)
 
 on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
   issues:
-    types:
-      - opened
+    types: [opened]
+  pull_request:
+    types: [opened]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 jobs:
   add-to-project:
-    permissions: write-all
     name: Add issue to project
     runs-on: ubuntu-latest
     steps:
       - uses: actions/add-to-project@main
         with:
-          #project-url: https://github.com/orgs/<orgName>/projects/<projectNumber>
           project-url: https://github.com/users/fjcasti1/projects/2
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-            #          labeled: bug, needs-triage
-            #          label-operator: OR
-
-            #name: Assign Issue to Project(s)
-            #
-            #on:
-            #  # Triggers the workflow on push or pull request events but only for the "main" branch
-            #  issues:
-            #    types: [opened]
-            #  pull_request:
-            #    types: [opened]
-            #  # Allows you to run this workflow manually from the Actions tab
-            #  workflow_dispatch:
-            #
-            #permissions:
-            #  issues: write
-            #  pull-requests: write
-            #  repository-projects: write
-            #
-            #jobs:
-            #  add-to-project:
-            #    name: Add issue to project
-            #    runs-on: ubuntu-latest
-            #    steps:
-            #      - uses: actions/add-to-project@main
-            #        with:
-            #          project-url: https://github.com/users/fjcasti1/projects/2
-            #          github-token: ${{ secrets.GITHUB_TOKEN }}
-            #            # labeled: bug, needs-triage
-            #            # label-operator: OR
+          github-token: ${{ secrets.ADD_TO_PROJECT_PAT }}
+            # labeled: bug, needs-triage
+            # label-operator: OR
