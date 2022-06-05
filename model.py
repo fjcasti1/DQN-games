@@ -1,5 +1,5 @@
 import os
-from typing import List, Tuple, Union
+from typing import List, Union
 
 import torch
 import torch.nn as nn
@@ -67,7 +67,7 @@ class QTrainer:
                 Q_new = reward[idx] + self.gama * torch.max(self.model(next_state[idx]))
             target[idx][torch.argmax(action).item()] = Q_new
 
-        # 2: Q_new + gama * max( next_predicted Q value ) -> only do this if not game_over
+        # 2: Q_new + gama * max( next_predicted Q value ) -> do only if not game_over
         # pred.close()
         # pred[argmac(action)] = Q_new
         self.optimizer.zero_grad()
