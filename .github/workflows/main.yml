@@ -43,13 +43,9 @@ on:
     types:
       - opened
 
-permissions:
-  issues: write
-  pull-requests: write
-  repository-projects: write
-
 jobs:
   add-to-project:
+    permissions: write-all
     name: Add issue to project
     runs-on: ubuntu-latest
     steps:
