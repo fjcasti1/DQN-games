@@ -19,34 +19,10 @@ jobs:
       - name: Dependency Review
         uses: actions/dependency-review-action@v1
 
-  black-format:
-    name: Enfore Black Formatting
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out Git repository
-        uses: actions/checkout@v2
-
-      - name: Set up Python 3.8
-        uses: actions/setup-python@v1
-        with:
-          python-version: 3.8
-
-      - name: Install Python dependencies
-        run: pip install black
-
-      - name: Run Black
-        uses: wearerequired/lint-action@v2
-        with:
-          continue_on_error: true
-          auto_fix: true
-          black: true
-          black_auto_fix: true
-
   lint:
     name: Lint Code Base
     runs-on: ubuntu-latest
-    needs: [dep-review, black-format]
+    needs: [dep-review]
 
     steps:
       - name: Check out Git repository
@@ -60,7 +36,7 @@ jobs:
   documentation:
     name: Docstring Coverage
     runs-on: ubuntu-latest
-    needs: [dep-review, black-format]
+    needs: [dep-review]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
@@ -74,7 +50,7 @@ jobs:
     name: Analyze Vulnerability
     # CodeQL runs on ubuntu-latest, windows-latest, and macos-latest
     runs-on: ubuntu-latest
-    needs: [dep-review, black-format]
+    needs: [dep-review]
 
     permissions:
       # required for all workflows
