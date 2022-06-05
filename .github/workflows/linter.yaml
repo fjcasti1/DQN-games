@@ -30,3 +30,4 @@ jobs:
           auto_fix: false
           black: true
           flake8: true
+          continue_on_error: false
