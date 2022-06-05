@@ -42,7 +42,10 @@ jobs:
           flake8: true
           flake8_args: "--max-line-length=94"
   new-action:
-    - name: wemake-python-styleguide
-      uses: wemake-services/wemake-python-styleguide
-      env:
-        GITHUB_TOKEN: ${{ secrets.github_token }}
+    name: New Action
+    runs-on: ubuntu-latest
+    steps:
+      - name: wemake-python-styleguide
+        uses: wemake-services/wemake-python-styleguide
+        env:
+          GITHUB_TOKEN: ${{ secrets.github_token }}
